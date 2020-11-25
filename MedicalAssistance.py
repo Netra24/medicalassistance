@@ -1,5 +1,6 @@
 import json
 import boto3
+import time
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -13,11 +14,11 @@ def handler(event, context):
     email = data['email']
     audio = data['file']['body'].read()
     key = datetime.now().strftime("%m%d%Y%H%M%S")
-
+    fileName = key+data['headers']['content-type']
     try:
         data = s3.put_object(
             Bucket="medicalaudiofiles",
-            Key=key+'.mp3',
+            Key=fileName,
             Body=audio,
             Metadata={}
         )
@@ -25,6 +26,8 @@ def handler(event, context):
         print(e)
         raise(e)
 
+    time.sleep(70)
+    
     sendEmail(key, email)
     return {"message": "Successfully executed"}
 
@@ -58,6 +61,7 @@ def sendEmail(key, email):
 
     msg.attach(body_txt)
     msg.attach(attachment)
+
     try:
         data = ses.send_email(
             Source="c.netra@gmail.com",
