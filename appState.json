@@ -1,0 +1,132 @@
+{
+  "EDITOR_STATE": {
+    "allProjectFiles": {
+      "29bc0dd0-3e1f-41b5-9d76-9edfa3140c77": {
+        "id": "29bc0dd0-3e1f-41b5-9d76-9edfa3140c77",
+        "parent": null,
+        "name": "MedicalAssistance.py",
+        "type": "PYTHON_LAMBDA",
+        "isDirectory": false,
+        "children": [],
+        "isRemovable": true,
+        "filePath": "MedicalAssistance.py",
+        "cursor": {
+          "lineNumber": 75,
+          "column": 18
+        },
+        "config": {
+          "runtime": "python3.8",
+          "handler": "handler",
+          "timeout": 60,
+          "memory": 128,
+          "layers": [],
+          "name": "MedicalAssistance"
+        },
+        "triggers": [
+          {
+            "resourceName": "httpApiguploadApi",
+            "config": {
+              "defaultRoute": false,
+              "method": "PUT",
+              "route": "/upload"
+            }
+          }
+        ],
+        "lastUpdated": 1606312416596
+      }
+    },
+    "openFiles": [
+      "29bc0dd0-3e1f-41b5-9d76-9edfa3140c77"
+    ],
+    "currentFileId": "29bc0dd0-3e1f-41b5-9d76-9edfa3140c77",
+    "resources": {
+      "httpApiguploadApi": {
+        "name": "httpApiguploadApi",
+        "type": "API_GATEWAY",
+        "config": {
+          "apiType": 2,
+          "mode": 0,
+          "apiName": "uploadApi",
+          "stageName": "audio",
+          "corsConfig": {
+            "maxAge": 0,
+            "allowCredentials": false
+          }
+        }
+      },
+      "s3medicalaudiofiles": {
+        "name": "s3medicalaudiofiles",
+        "type": "S3",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "name": "medicalaudiofiles"
+          }
+        }
+      },
+      "s3medicalreport": {
+        "name": "s3medicalreport",
+        "type": "S3",
+        "config": {
+          "mode": 1,
+          "bucket": {
+            "name": "medicalreport"
+          }
+        }
+      },
+      "ses-c.netra@gmail.com": {
+        "name": "ses-c.netra@gmail.com",
+        "type": "SES",
+        "config": {
+          "selectedIdentity": "c.netra@gmail.com",
+          "projectRegion": "us-east-2"
+        }
+      }
+    },
+    "customTemplate": {
+      "syntax": "JSON",
+      "overrideDefault": false,
+      "dialect": "CloudFormation",
+      "definitions": null
+    },
+    "envVariables": [
+      {
+        "lambdaId": "all",
+        "varKey": "SIGMA_AWS_ACC_ID",
+        "varValue": null,
+        "shouldPersist": false,
+        "displayOnly": false,
+        "editable": false
+      }
+    ],
+    "packageJSON": {
+      "dependencies": {
+        "boto3": {
+          "name": "boto3",
+          "language": "python",
+          "version": "1.12.27",
+          "dev": true,
+          "notRemovable": false
+        }
+      }
+    }
+  },
+  "PROJECT_META": {
+    "sigmaVersion": "1.4.4.1",
+    "projectName": "MedicalAssistance",
+    "projectDescription": "",
+    "projectVersion": "1.0.0",
+    "projectRegion": "us-east-2",
+    "platform": "AWS",
+    "language": "python",
+    "platformRegions": {},
+    "lastSave": 1606312589299
+  },
+  "VCS_STATE": {
+    "provider": "GitHub",
+    "repo": {
+      "name": "medicalassistance",
+      "url": "https://github.com/Netra24/medicalassistance"
+    }
+  }
+}
