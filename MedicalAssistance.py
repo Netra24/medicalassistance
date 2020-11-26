@@ -48,7 +48,6 @@ def sendEmail(key, email):
     
     file_content = fileObj["Body"].read()
 
-    sender = "c.netra@gmail.com"
     to = email
     subject = 'Emergency - Medical Rocord'
     body = "This email is to notify you regarding an emergency."
