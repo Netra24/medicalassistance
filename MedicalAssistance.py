@@ -30,10 +30,7 @@ def handler(event, context):
     time.sleep(70)
 
     sendEmail(key, email)
-    return{
-        'statusCode' : 200,
-        'body': json.dumps('File uploaded successfully!')
-    }
+    return {"message" : "Successful"}
 
 def sendEmail(key, email):
     key = key+'.txt'
@@ -85,4 +82,4 @@ def sendEmail(key, email):
     except BaseException as e:
         print(e)
         raise(e)
-    return "Thanks"
+    return
