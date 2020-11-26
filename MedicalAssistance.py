@@ -1,6 +1,7 @@
 import json
 import boto3
 import time
+import base64
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -12,9 +13,9 @@ ses = boto3.client("ses")
 def handler(event, context):
     data = event['body']
     email = data['email']
-    audio = data['file']['body'].read()
+    audio = base64.b64encode(data['file']['content']) or data['file']['content']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
-    fileName = key+data['headers']['content-type']
+    fileName = key+data['headers']['content-type'] or key+'.mp3'
     try:
         data = s3.put_object(
             Bucket="medicalaudiofiles",
@@ -27,9 +28,12 @@ def handler(event, context):
         raise(e)
 
     time.sleep(70)
-    
+
     sendEmail(key, email)
-    return {"message": "Successfully executed"}
+    return{
+        'statusCode' : 200,
+        'body': json.dumps('File uploaded successfully!')
+    }
 
 def sendEmail(key, email):
     key = key+'.txt'

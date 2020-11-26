@@ -11,8 +11,8 @@
         "isRemovable": true,
         "filePath": "MedicalAssistance.py",
         "cursor": {
-          "lineNumber": 30,
-          "column": 5
+          "lineNumber": 34,
+          "column": 28
         },
         "config": {
           "runtime": "python3.8",
