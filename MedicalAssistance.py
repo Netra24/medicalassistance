@@ -42,14 +42,15 @@ def handler(event, context):
             Body=audio,
             Metadata={}
         )
+        time.sleep(70)
+        sendEmail(key, emailid)
+        return {
+            'statusCode': 200,
+            'body': json.dumps('File uploaded successfully!')
+        }
     except BaseException as e:
         print(e)
         raise(e)
-
-    time.sleep(70)
-
-    sendEmail(key, emailid)
-    return {"message" : "Successful"}
 
 def sendEmail(key, emailid):
     key = key+'.txt'
@@ -98,7 +99,10 @@ def sendEmail(key, emailid):
                 }
             }
         )
+        return {
+            'statusCode': 200,
+            'body': json.dumps('File uploaded successfully!')
+        }
     except BaseException as e:
         print(e)
         raise(e)
-    return {"message" : "Successful"}
