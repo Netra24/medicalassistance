@@ -11,8 +11,8 @@
         "isRemovable": true,
         "filePath": "MedicalAssistance.py",
         "cursor": {
-          "lineNumber": 31,
-          "column": 40
+          "lineNumber": 21,
+          "column": 53
         },
         "config": {
           "runtime": "python3.8",
@@ -119,7 +119,7 @@
     "platform": "AWS",
     "language": "python",
     "platformRegions": {},
-    "lastSave": 1606312589299
+    "lastSave": 1606718777809
   },
   "VCS_STATE": {
     "provider": "GitHub",

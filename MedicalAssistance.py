@@ -18,7 +18,7 @@ def handler(event, context):
     ct = "Content-Type: "+content_type+"\n"
 
     # parsing message from bytes
-    msg = email.message_from_bytes(ct.encode()+post_data)
+    msg = email.message_from_bytes(ct.encode()+data)
     
     # if message is multipart
     if msg.is_multipart():
