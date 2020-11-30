@@ -3,6 +3,7 @@ import boto3
 import time
 import base64
 import email
+from pprint import pprint
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -42,8 +43,10 @@ def handler(event, context):
             Body=audio,
             Metadata={}
         )
+        pprint(datetime.now().strftime("%H:%M:%S"))
         time.sleep(70)
-        sendEmail(key, emailid)
+        pprint(datetime.now().strftime("%H:%M:%S"))
+        sendEmail(fileName, emailid)
         return {
             'statusCode': 200,
             'body': json.dumps('Successful!')
@@ -53,7 +56,7 @@ def handler(event, context):
         raise(e)
 
 def sendEmail(key, emailid):
-    key = key+'.txt'
+    key = key.split('.')[0]+'.txt'
     try:
         fileObj = s3.get_object(
             Bucket="medicalreport",
