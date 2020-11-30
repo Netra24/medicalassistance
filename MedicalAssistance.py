@@ -81,7 +81,7 @@ def sendEmail(key, emailid):
     body_txt = MIMEText(body, "text")
 
     attachment = MIMEApplication(file_content)
-    attachment.add_header("Content-Disposition", "attachment", filename=object)
+    attachment.add_header("Content-Disposition", "attachment", filename=key)
 
     msg.attach(body_txt)
     msg.attach(attachment)
