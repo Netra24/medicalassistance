@@ -20,18 +20,21 @@ def handler(event, context):
     # parsing message from bytes
     msg = email.message_from_bytes(ct.encode()+data)
     
+    fileName=''
     # if message is multipart
     if msg.is_multipart():
         multipart_content = {}
         # retrieving form-data
         for part in msg.get_payload():
+            if part.get_filename():
+                file_name = part.get_filename()
             multipart_content[part.get_param('name', header='content-disposition')] = part.get_payload(decode=True)
 
 
     emailid = multipart_content['mailid']
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
-    fileName = key+json.loads(multipart_content["metadata"])["filename"]
+    fileName = key+file_name
     try:
         data = s3.put_object(
             Bucket="medicalaudiofiles",
