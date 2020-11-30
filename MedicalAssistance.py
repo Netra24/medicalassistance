@@ -14,7 +14,7 @@ ses = boto3.client("ses")
 def handler(event, context):
     data = base64.b64decode(event['body'])
 
-    content_type = event["headers"]['Content-Type']
+    content_type = event["headers"]['content-type']
     ct = "Content-Type: "+content_type+"\n"
 
     # parsing message from bytes
