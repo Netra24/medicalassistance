@@ -28,7 +28,7 @@ def handler(event, context):
             multipart_content[part.get_param('name', header='content-disposition')] = part.get_payload(decode=True)
 
 
-    email = multipart_content['email']
+    emailid = multipart_content['mailid']
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
     fileName = key+multipart_content['file']['content-type'] or key
@@ -45,10 +45,10 @@ def handler(event, context):
 
     time.sleep(70)
 
-    sendEmail(key, email)
+    sendEmail(key, emailid)
     return {"message" : "Successful"}
 
-def sendEmail(key, email):
+def sendEmail(key, emailid):
     key = key+'.txt'
     try:
         fileObj = s3.get_object(
@@ -61,7 +61,7 @@ def sendEmail(key, email):
     
     file_content = fileObj["Body"].read()
 
-    to = email
+    to = emailid
     subject = 'Emergency - Medical Rocord'
     body = "This email is to notify you regarding an emergency."
 
@@ -82,7 +82,7 @@ def sendEmail(key, email):
         data = ses.send_email(
             Source="c.netra@gmail.com",
             Destination={
-                'ToAddresses': email
+                'ToAddresses': emailid
             },
             Message={
                 'Subject': {
