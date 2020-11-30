@@ -46,7 +46,7 @@ def handler(event, context):
         sendEmail(key, emailid)
         return {
             'statusCode': 200,
-            'body': json.dumps('File uploaded successfully!')
+            'body': json.dumps('Successful!')
         }
     except BaseException as e:
         print(e)
@@ -101,7 +101,7 @@ def sendEmail(key, emailid):
         )
         return {
             'statusCode': 200,
-            'body': json.dumps('File uploaded successfully!')
+            'body': json.dumps('Successful!')
         }
     except BaseException as e:
         print(e)
