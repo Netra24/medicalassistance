@@ -2,6 +2,7 @@ import json
 import boto3
 import time
 import base64
+import email
 from datetime import datetime
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -11,11 +12,26 @@ s3 = boto3.client('s3')
 ses = boto3.client("ses")
 
 def handler(event, context):
-    data = event['body']
-    email = data['email']
-    audio = base64.b64encode(data['file']['content']) or data['file']['content']
+    data = base64.b64decode(event['body'])
+
+    content_type = event["headers"]['Content-Type']
+    ct = "Content-Type: "+content_type+"\n"
+
+    # parsing message from bytes
+    msg = email.message_from_bytes(ct.encode()+post_data)
+    
+    # if message is multipart
+    if msg.is_multipart():
+        multipart_content = {}
+        # retrieving form-data
+        for part in msg.get_payload():
+            multipart_content[part.get_param('name', header='content-disposition')] = part.get_payload(decode=True)
+
+
+    email = multipart_content['email']
+    audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
-    fileName = key+data['headers']['content-type'] or key+'.mp3'
+    fileName = key+multipart_content['file']['content-type'] or key
     try:
         data = s3.put_object(
             Bucket="medicalaudiofiles",

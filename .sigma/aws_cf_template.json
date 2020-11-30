@@ -12,8 +12,8 @@
     }
   },
   "Outputs": {
-    "httpApiguploadApiRoutePUTupload": {
-      "Description": "URL of uploadApi/upload:PUT endpoint",
+    "httpApiguploadApiRoutePOSTupload": {
+      "Description": "URL of uploadApi/upload:POST endpoint",
       "Value": {
         "Fn::Join": [
           "",
@@ -172,7 +172,7 @@
         }
       }
     },
-    "httpApiguploadApiRoutePUTupload": {
+    "httpApiguploadApiRoutePOSTupload": {
       "Type": "AWS::ApiGatewayV2::Route",
       "DependsOn": [
         "httpApiguploadApiIntegrationMedicalAssistance"
@@ -181,7 +181,7 @@
         "ApiId": {
           "Ref": "httpApiguploadApi"
         },
-        "RouteKey": "PUT /upload",
+        "RouteKey": "POST /upload",
         "AuthorizationType": "NONE",
         "Target": {
           "Fn::Join": [
@@ -196,7 +196,7 @@
         }
       }
     },
-    "httpApiguploadApiRoutePUTuploadPermission": {
+    "httpApiguploadApiRoutePOSTuploadPermission": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "Action": "lambda:InvokeFunction",
@@ -207,7 +207,7 @@
           "Fn::Sub": [
             "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${__ApiId__}/*/${__Method__}${__Path__}",
             {
-              "__Method__": "PUT",
+              "__Method__": "POST",
               "__Path__": "/upload",
               "__ApiId__": {
                 "Ref": "httpApiguploadApi"
