@@ -101,4 +101,4 @@ def sendEmail(key, emailid):
     except BaseException as e:
         print(e)
         raise(e)
-    return
+    return {"message" : "Successful"}
