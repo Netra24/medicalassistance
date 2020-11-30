@@ -31,7 +31,7 @@ def handler(event, context):
     emailid = multipart_content['mailid']
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
-    fileName = key+json.loads(multipart_content["Metadata"])["filename"]
+    fileName = key+json.loads(multipart_content["metadata"])["filename"]
     try:
         data = s3.put_object(
             Bucket="medicalaudiofiles",
