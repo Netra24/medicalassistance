@@ -87,8 +87,8 @@ def sendEmail(key, emailid):
 
     msg.attach(body_txt)
     msg.attach(attachment)
-
-    response = ses.send_raw_email(Source = sender, Destinations = [to], RawMessage = {"Data": msg.as_string()})
+    
+    response = ses.send_email(Source = sender, Destinations = [to], Message = {"Data": msg.as_string()})
     pprint(response)
 
     return
