@@ -87,7 +87,7 @@ def sendEmail(key, emailid):
         response = ses.send_email(
             Source="c.netra@gmail.com",
             Destination={
-                'ToAddresses': emailid
+                'ToAddresses': [emailid]
             },
             Message={
                 'Subject': {
