@@ -70,16 +70,12 @@ def sendEmail(key, emailid):
     
     file_content = fileObj["Body"].read()
 
-    sender = 'c.netra@gmail.com'
-    to = emailid
-    subject = 'Emergency - Medical Rocord'
-    body = """<br>This email is to notify you regarding an emergency."""
-
     msg = MIMEMultipart()
-    msg["Subject"] = subject
-    msg["From"] = sender
-    msg["To"] = to
+    # msg["Subject"] = 'Emergency - Medical Rocord'
+    # msg["From"] = 'c.netra@gmail.com'
+    # msg["To"] = emailid
 
+    body = """<br>This email is to notify you regarding an emergency."""
     body_txt = MIMEText(body, "html")
 
     attachment = MIMEApplication(file_content)
@@ -87,8 +83,28 @@ def sendEmail(key, emailid):
 
     msg.attach(body_txt)
     msg.attach(attachment)
+    try:
+        response = ses.send_email(
+            Source="c.netra@gmail.com",
+            Destination={
+                'ToAddresses': emailid
+            },
+            Message={
+                'Subject': {
+                    'Data': "Emergency - Medical Rocord"
+                },
+                'Body': {
+                    'Html': {
+                        'Data': msg.as_string()
+                    }
+                }
+            }
+        )
+    except BaseException as e:
+        print(e)
+        raise(e)
     
-    response = ses.send_email(Source = sender, Destinations = [to], Message = {"Data": msg.as_string()})
+    # response = ses.send_email(Source = sender, Destinations = [to], Message = {"Data": msg.as_string()})
     pprint(response)
 
     return
