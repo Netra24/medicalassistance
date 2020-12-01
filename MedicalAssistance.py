@@ -46,7 +46,8 @@ def handler(event, context):
         pprint(datetime.now().strftime("%H:%M:%S"))
         time.sleep(70)
         pprint(datetime.now().strftime("%H:%M:%S"))
-        sendEmail(fileName, emailid)
+        
+        sendEmail(fileName, emailid, event["Records"]["eventName"], event["Records"]["requestParameters"]["sourceIPAddress"])
         return {
             'statusCode': 200,
             'body': json.dumps('Successful!')
@@ -55,7 +56,7 @@ def handler(event, context):
         print(e)
         raise(e)
 
-def sendEmail(key, emailid):
+def sendEmail(key, emailid, action, ip):
     key = key.split('.')[0]+'.txt'
     try:
         fileObj = s3.get_object(
@@ -71,14 +72,17 @@ def sendEmail(key, emailid):
     sender = 'c.netra@gmail.com'
     to = emailid
     subject = 'Emergency - Medical Rocord'
-    body = "This email is to notify you regarding an emergency."
+    body = """
+        <br>
+        This email is to notify you regarding an emergency.
+    """.format(action, key, ip)
 
     msg = MIMEMultipart()
     msg["Subject"] = subject
     msg["From"] = sender
     msg["To"] = to
 
-    body_txt = MIMEText(body, "text")
+    body_txt = MIMEText(body, "html")
 
     attachment = MIMEApplication(file_content)
     attachment.add_header("Content-Disposition", "attachment", filename=key)
@@ -86,12 +90,4 @@ def sendEmail(key, emailid):
     msg.attach(body_txt)
     msg.attach(attachment)
 
-    try:
-        ses.send_raw_email(Source = sender, Destinations = [to], RawMessage = {"Data": msg.as_string()})
-        return {
-            'statusCode': 200,
-            'body': json.dumps('Successful!')
-        }
-    except BaseException as e:
-        print(e)
-        raise(e)
+    response = ses.send_raw_email(Source = sender, Destinations = [to], RawMessage = {"Data": msg.as_string()})
