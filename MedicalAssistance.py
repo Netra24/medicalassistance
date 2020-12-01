@@ -32,7 +32,7 @@ def handler(event, context):
             multipart_content[part.get_param('name', header='content-disposition')] = part.get_payload(decode=True)
 
 
-    emailid = multipart_content['mailid']
+    emailid = multipart_content['mailid'].decode("utf-8") 
     pprint(emailid)
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
