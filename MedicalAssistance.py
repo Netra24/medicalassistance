@@ -33,6 +33,7 @@ def handler(event, context):
 
 
     emailid = multipart_content['mailid']
+    pprint(emailid)
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
     fileName = key+file_name
