@@ -47,7 +47,7 @@ def handler(event, context):
         time.sleep(70)
         pprint(datetime.now().strftime("%H:%M:%S"))
         
-        sendEmail(fileName, emailid, event["Records"]["eventName"], event["Records"]["requestParameters"]["sourceIPAddress"])
+        sendEmail(fileName, emailid)
         return {
             'statusCode': 200,
             'body': json.dumps('Successful!')
@@ -56,7 +56,7 @@ def handler(event, context):
         print(e)
         raise(e)
 
-def sendEmail(key, emailid, action, ip):
+def sendEmail(key, emailid):
     key = key.split('.')[0]+'.txt'
     try:
         fileObj = s3.get_object(
@@ -72,10 +72,7 @@ def sendEmail(key, emailid, action, ip):
     sender = 'c.netra@gmail.com'
     to = emailid
     subject = 'Emergency - Medical Rocord'
-    body = """
-        <br>
-        This email is to notify you regarding an emergency.
-    """.format(action, key, ip)
+    body = """<br>This email is to notify you regarding an emergency."""
 
     msg = MIMEMultipart()
     msg["Subject"] = subject
@@ -91,3 +88,6 @@ def sendEmail(key, emailid, action, ip):
     msg.attach(attachment)
 
     response = ses.send_raw_email(Source = sender, Destinations = [to], RawMessage = {"Data": msg.as_string()})
+    pprint(response)
+
+    return
