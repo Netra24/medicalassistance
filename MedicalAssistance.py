@@ -105,7 +105,7 @@ def sendEmail(key, emailid):
     #     print(e)
     #     raise(e)
     
-    response = ses.send_raw_email(Source = sender, Destinations = [to], RawMessage = {"Data": msg.as_string()})
+    response = ses.send_raw_email(Source = 'c.netra@gmail.com', Destinations = [to], RawMessage = {"Data": msg.as_string()})
     pprint(response)
 
     return
