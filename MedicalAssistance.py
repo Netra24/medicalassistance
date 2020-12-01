@@ -71,9 +71,9 @@ def sendEmail(key, emailid):
     file_content = fileObj["Body"].read()
 
     msg = MIMEMultipart()
-    # msg["Subject"] = 'Emergency - Medical Rocord'
-    # msg["From"] = 'c.netra@gmail.com'
-    # msg["To"] = emailid
+    msg["Subject"] = 'Emergency - Medical Rocord'
+    msg["From"] = 'c.netra@gmail.com'
+    msg["To"] = emailid
 
     body = """<br>This email is to notify you regarding an emergency."""
     body_txt = MIMEText(body, "html")
