@@ -138,16 +138,6 @@
                   "Effect": "Allow",
                   "Action": "s3:GetObject",
                   "Resource": "arn:aws:s3:::medicalreport/*"
-                },
-                {
-                  "Effect": "Allow",
-                  "Action": [
-                    "SES:SendEmail",
-                    "SES:SendRawEmail"
-                  ],
-                  "Resource": [
-                    "arn:aws:ses:us-east-2:129803728197:identity/c.netra@gmail.com"
-                  ]
                 }
               ]
             }

@@ -87,22 +87,7 @@ def sendEmail(key, emailid):
     msg.attach(attachment)
 
     try:
-        data = ses.send_email(
-            Source="c.netra@gmail.com",
-            Destination={
-                'ToAddresses': emailid
-            },
-            Message={
-                'Subject': {
-                    'Data': "Emergency - Medical Rocord"
-                },
-                'Body': {
-                    'Html': {
-                        'Data': msg.as_string()
-                    }
-                }
-            }
-        )
+        ses.send_raw_email(Source = sender, Destinations = [to], RawMessage = {"Data": msg.as_string()})
         return {
             'statusCode': 200,
             'body': json.dumps('Successful!')
