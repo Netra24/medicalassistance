@@ -40,7 +40,7 @@ def handler(event, context):
     pprint(emailid)
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
-    fileName = emailid+file_name.split('.')[1]
+    fileName = emailid+'.'+file_name.split('.')[1]
     
     data = s3.put_object(
         Bucket="medicalaudiofiles",
