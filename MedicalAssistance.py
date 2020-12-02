@@ -33,7 +33,7 @@ def handler(event, context):
 
     emailid = multipart_content['mailid'].decode("utf-8") 
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-    if(not re.search(regex,email)):  
+    if(not re.search(regex,emailid)):  
         return {
             'Error': 'Invalid Email ID'
         }
