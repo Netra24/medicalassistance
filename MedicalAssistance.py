@@ -49,7 +49,7 @@ def handler(event, context):
         Metadata={}
     )
     
-    time.sleep(30)       
+    time.sleep(20)       
     # sendEmail(fileName, emailid)
     
     return {
