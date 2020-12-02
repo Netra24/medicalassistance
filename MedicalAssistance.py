@@ -20,8 +20,7 @@ def handler(event, context):
 
     # parsing message from bytes
     msg = email.message_from_bytes(ct.encode()+data)
-    
-    fileName=''
+
     # if message is multipart
     if msg.is_multipart():
         multipart_content = {}
@@ -31,43 +30,30 @@ def handler(event, context):
                 file_name = part.get_filename()
             multipart_content[part.get_param('name', header='content-disposition')] = part.get_payload(decode=True)
 
-
     emailid = multipart_content['mailid'].decode("utf-8") 
     pprint(emailid)
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
     fileName = key+file_name
-    try:
-        data = s3.put_object(
-            Bucket="medicalaudiofiles",
-            Key=fileName,
-            Body=audio,
-            Metadata={}
-        )
-        pprint(datetime.now().strftime("%H:%M:%S"))
-        time.sleep(70)
-        pprint(datetime.now().strftime("%H:%M:%S"))
-        
-        sendEmail(fileName, emailid)
-        return {
-            'statusCode': 200,
-            'body': json.dumps('Successful!')
-        }
-    except BaseException as e:
-        print(e)
-        raise(e)
+    
+    data = s3.put_object(
+        Bucket="medicalaudiofiles",
+        Key=fileName,
+        Body=audio,
+        Metadata={}
+    )
+    
+    time.sleep(60)       
+    sendEmail(fileName, emailid)
+    
+    return {
+        'statusCode': 200,
+        'body': json.dumps('Successful!')
+    }
 
 def sendEmail(key, emailid):
     key = key.split('.')[0]+'.txt'
-    try:
-        fileObj = s3.get_object(
-            Bucket="medicalreport",
-            Key=key
-        )
-    except BaseException as e:
-        print(e)
-        raise(e)
-    
+    fileObj = s3.get_object( Bucket="medicalreport", Key=key )
     file_content = fileObj["Body"].read()
 
     sender = 'c.netra@gmail.com'
@@ -86,27 +72,6 @@ def sendEmail(key, emailid):
 
     msg.attach(body_txt)
     msg.attach(attachment)
-
-    # try:
-    #     response = ses.send_email(
-    #         Source="c.netra@gmail.com",
-    #         Destination={
-    #             'ToAddresses': [emailid]
-    #         },
-    #         Message={
-    #             'Subject': {
-    #                 'Data': "Emergency - Medical Rocord"
-    #             },
-    #             'Body': {
-    #                 'Html': {
-    #                     'Data': msg.as_string()
-    #                 }
-    #             }
-    #         }
-    #     )
-    # except BaseException as e:
-    #     print(e)
-    #     raise(e)
     
     response = ses.send_raw_email(Source = 'c.netra@gmail.com', Destinations = [to], RawMessage = {"Data": msg.as_string()})
     pprint(response)

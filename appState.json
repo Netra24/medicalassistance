@@ -11,8 +11,8 @@
         "isRemovable": true,
         "filePath": "MedicalAssistance.py",
         "cursor": {
-          "lineNumber": 79,
-          "column": 19
+          "lineNumber": 23,
+          "column": 1
         },
         "config": {
           "runtime": "python3.8",
@@ -32,7 +32,7 @@
             }
           }
         ],
-        "lastUpdated": 1606803978247
+        "lastUpdated": 1606889933197
       }
     },
     "openFiles": [
@@ -78,8 +78,7 @@
         "name": "ses-c.netra@gmail.com",
         "type": "SES",
         "config": {
-          "selectedIdentity": "c.netra@gmail.com",
-          "projectRegion": "us-east-2"
+          "selectedIdentity": "c.netra@gmail.com"
         }
       }
     },
