@@ -1,5 +1,6 @@
 import json
 import boto3
+import re
 import time
 import base64
 import email
@@ -31,6 +32,11 @@ def handler(event, context):
             multipart_content[part.get_param('name', header='content-disposition')] = part.get_payload(decode=True)
 
     emailid = multipart_content['mailid'].decode("utf-8") 
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    if(not re.search(regex,email)):  
+        return {
+            'Error': 'Invalid Email ID'
+        }
     pprint(emailid)
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
