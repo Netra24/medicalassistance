@@ -48,7 +48,7 @@ def handler(event, context):
     
     return {
         'statusCode': 200,
-        'body': json.dumps('Successful!')
+        'body': json.dumps('Report has been mailed!')
     }
 
 def sendEmail(key, emailid):
