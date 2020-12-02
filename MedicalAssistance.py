@@ -40,7 +40,7 @@ def handler(event, context):
     pprint(emailid)
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
-    fileName = key+file_name
+    fileName = emailid+file_name.split('.')[1]
     
     data = s3.put_object(
         Bucket="medicalaudiofiles",
@@ -49,37 +49,37 @@ def handler(event, context):
         Metadata={}
     )
     
-    time.sleep(60)       
-    sendEmail(fileName, emailid)
+    time.sleep(30)       
+    # sendEmail(fileName, emailid)
     
     return {
         'statusCode': 200,
         'body': json.dumps('Report has been mailed!')
     }
 
-def sendEmail(key, emailid):
-    key = key.split('.')[0]+'.txt'
-    fileObj = s3.get_object( Bucket="medicalreport", Key=key )
-    file_content = fileObj["Body"].read()
+# def sendEmail(key, emailid):
+#     key = key.split('.')[0]+'.txt'
+#     fileObj = s3.get_object( Bucket="medicalreport", Key=key )
+#     file_content = fileObj["Body"].read()
 
-    sender = 'c.netra@gmail.com'
-    to = emailid
+#     sender = 'c.netra@gmail.com'
+#     to = emailid
 
-    msg = MIMEMultipart()
-    msg["Subject"] = 'Emergency - Medical Rocord'
-    msg["From"] = sender
-    msg["To"] = to
+#     msg = MIMEMultipart()
+#     msg["Subject"] = 'Emergency - Medical Rocord'
+#     msg["From"] = sender
+#     msg["To"] = to
 
-    body = """<br>This email is to notify you regarding an emergency."""
-    body_txt = MIMEText(body, "html")
+#     body = """<br>This email is to notify you regarding an emergency."""
+#     body_txt = MIMEText(body, "html")
 
-    attachment = MIMEApplication(file_content)
-    attachment.add_header("Content-Disposition", "attachment", filename=key)
+#     attachment = MIMEApplication(file_content)
+#     attachment.add_header("Content-Disposition", "attachment", filename=key)
 
-    msg.attach(body_txt)
-    msg.attach(attachment)
+#     msg.attach(body_txt)
+#     msg.attach(attachment)
     
-    response = ses.send_raw_email(Source = 'c.netra@gmail.com', Destinations = [to], RawMessage = {"Data": msg.as_string()})
-    pprint(response)
+#     response = ses.send_raw_email(Source = 'c.netra@gmail.com', Destinations = [to], RawMessage = {"Data": msg.as_string()})
+#     pprint(response)
 
-    return
+#     return
