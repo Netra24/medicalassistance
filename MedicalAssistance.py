@@ -49,37 +49,9 @@ def handler(event, context):
         Metadata={'email':emailid}
     )
     
-    time.sleep(20)       
-    # sendEmail(fileName, emailid)
+    time.sleep(20)
     
     return {
         'statusCode': 200,
-        'body': json.dumps('Report has been mailed!')
+        'body': json.dumps('Report is being generated. Mail will be sent soon!')
     }
-
-# def sendEmail(key, emailid):
-#     key = key.split('.')[0]+'.txt'
-#     fileObj = s3.get_object( Bucket="medicalreport", Key=key )
-#     file_content = fileObj["Body"].read()
-
-#     sender = 'c.netra@gmail.com'
-#     to = emailid
-
-#     msg = MIMEMultipart()
-#     msg["Subject"] = 'Emergency - Medical Rocord'
-#     msg["From"] = sender
-#     msg["To"] = to
-
-#     body = """<br>This email is to notify you regarding an emergency."""
-#     body_txt = MIMEText(body, "html")
-
-#     attachment = MIMEApplication(file_content)
-#     attachment.add_header("Content-Disposition", "attachment", filename=key)
-
-#     msg.attach(body_txt)
-#     msg.attach(attachment)
-    
-#     response = ses.send_raw_email(Source = 'c.netra@gmail.com', Destinations = [to], RawMessage = {"Data": msg.as_string()})
-#     pprint(response)
-
-#     return
