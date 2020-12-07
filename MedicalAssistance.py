@@ -13,6 +13,7 @@ from email.mime.application import MIMEApplication
 s3 = boto3.client('s3')
 ses = boto3.client("ses")
 errorMsg = '<html><head><title>Error</title><style> body { background-image: url(\'https://medicalreportgenerator.s3.us-east-2.amazonaws.com/bg.jpg\'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover; } .center {display: flex; justify-content: center; align-items: center;} .div1 { font-size: xx-large; } </style></head><body><div class=\'center div1\'><h1>Medical Report Generator</h1></div><hr><div class=\'center\'><h2>Invalid Email ID</h2></div></body></html>'
+errorAudio = '<html><head><title>Error</title><style> body { background-image: url(\'https://medicalreportgenerator.s3.us-east-2.amazonaws.com/bg.jpg\'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover; } .center {display: flex; justify-content: center; align-items: center;} .div1 { font-size: xx-large; } </style></head><body><div class=\'center div1\'><h1>Medical Report Generator</h1></div><hr><div class=\'center\'><h2>Upload Audio Files Only</h2></div></body></html>'
 success = '<html><head><title>Successful</title><style> body { background-image: url(\'https://medicalreportgenerator.s3.us-east-2.amazonaws.com/bg.jpg\'); background-repeat: no-repeat; background-attachment: fixed; background-size: cover; } .center {display: flex; justify-content: center; align-items: center;} .div1 { font-size: xx-large; } </style></head><body><div class=\'center div1\'><h1>Medical Report Generator</h1></div><hr><div class=\'center\'><h2>File is being processed. Mail will be sent soon.</h2></body></html>'
 
 def handler(event, context):
@@ -35,8 +36,18 @@ def handler(event, context):
 
     audio = multipart_content['file']
     key = datetime.now().strftime("%m%d%Y%H%M%S")
-    fileName = key+'.'+file_name.split('.')[1]
+    ext = file_name.split('.')[1]
+    fileName = key+'.'+ext
     
+    if(ext != 'mp3' or ext !='mp4' or ext !='wav' or ext !='flac' or ext !='ogg' or ext !='amr' or ext !='webm'):
+        return {
+            'statusCode': 200,
+            'body': errorAudio,
+            'headers': {
+                'Content-Type': 'text/html'
+            }
+        }
+
     emailid = multipart_content['mailid'].decode("utf-8") 
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     if(not re.search(regex,emailid)):  
