@@ -12,6 +12,8 @@ from email.mime.application import MIMEApplication
 
 s3 = boto3.client('s3')
 ses = boto3.client("ses")
+errorMsg = '<html><head><title>Error</title><style> .center {display: flex; justify-content: center; align-items: center;} </style></head><body class=\'center\'><h3>Invalid Email ID</h3></body></html>'
+success = '<html><head><title>Error</title><style> .center {display: flex; justify-content: center; align-items: center;} </style></head><body class=\'center\'><h3>File is being processed. Mail will be sent soon.</h3></body></html>'
 
 def handler(event, context):
     data = base64.b64decode(event['body'])
@@ -39,7 +41,11 @@ def handler(event, context):
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     if(not re.search(regex,emailid)):  
         return {
-            'Error': 'Invalid Email ID'
+            'statusCode': 200,
+            'body': errorMsg,
+            'headers': {
+                'Content-Type': 'text/html'
+            }
         }
     
     data = s3.put_object(
@@ -53,5 +59,8 @@ def handler(event, context):
     
     return {
         'statusCode': 200,
-        'body': json.dumps('Report is being generated. Mail will be sent soon!')
+        'body': success,
+        'headers': {
+                'Content-Type': 'text/html'
+            }
     }
