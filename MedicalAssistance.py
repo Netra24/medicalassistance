@@ -39,15 +39,6 @@ def handler(event, context):
     ext = file_name.split('.')[1]
     fileName = key+'.'+ext
     
-    if(ext != 'mp3' or ext !='mp4' or ext !='wav' or ext !='flac' or ext !='ogg' or ext !='amr' or ext !='webm'):
-        return {
-            'statusCode': 200,
-            'body': errorAudio,
-            'headers': {
-                'Content-Type': 'text/html'
-            }
-        }
-
     emailid = multipart_content['mailid'].decode("utf-8") 
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     if(not re.search(regex,emailid)):  
@@ -59,6 +50,15 @@ def handler(event, context):
             }
         }
     
+    if(ext != 'mp3' or ext !='mp4' or ext !='wav' or ext !='flac' or ext !='ogg' or ext !='amr' or ext !='webm'):
+        return {
+            'statusCode': 200,
+            'body': errorAudio,
+            'headers': {
+                'Content-Type': 'text/html'
+            }
+        }
+
     data = s3.put_object(
         Bucket="medicalaudiofiles",
         Key=fileName,
