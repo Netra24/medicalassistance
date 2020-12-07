@@ -12,8 +12,8 @@ from email.mime.application import MIMEApplication
 
 s3 = boto3.client('s3')
 ses = boto3.client("ses")
-errorMsg = '<html><head><meta http-equiv="refresh" content="5" url="http://medicalreportgenerator.s3-website.us-east-2.amazonaws.com/"><title>Error</title><style> .center {display: flex; justify-content: center; align-items: center;} .div1 { font-size: xx-large; } </style></head><body><div class=\'center div1\'><h1>Medical Report Generator</h1></div><hr><div class=\'center\'><h3>Invalid Email ID</h3></div></body></html>'
-success = '<html><head><meta http-equiv="refresh" content="5" url="http://medicalreportgenerator.s3-website.us-east-2.amazonaws.com/"><title>Successful</title><style> .center {display: flex; justify-content: center; align-items: center;} .div1 { font-size: xx-large; } </style></head><body><div class=\'center div1\'><h1>Medical Report Generator</h1></div><hr><div class=\'center\'><h3>File is being processed. Mail will be sent soon.</h3></div></body></html>'
+errorMsg = '<html><head><title>Error</title><style> .center {display: flex; justify-content: center; align-items: center;} .div1 { font-size: xx-large; } </style></head><body><div class=\'center div1\'><h1>Medical Report Generator</h1></div><hr><div class=\'center\'><h3>Invalid Email ID</h3></div></body></html>'
+success = '<html><head><title>Successful</title><style> .center {display: flex; justify-content: center; align-items: center;} .div1 { font-size: xx-large; } </style></head><body><div class=\'center div1\'><h1>Medical Report Generator</h1></div><hr><div class=\'center\'><h3>File is being processed. Mail will be sent soon.</h3></div></body></html>'
 
 def handler(event, context):
     data = base64.b64decode(event['body'])
