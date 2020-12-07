@@ -50,7 +50,7 @@ def handler(event, context):
             }
         }
     
-    if(ext != 'mp3' or ext !='mp4' or ext !='wav' or ext !='flac' or ext !='ogg' or ext !='amr' or ext !='webm'):
+    if(ext!='mp3' and ext!='mp4' and ext!='wav' and ext!='flac' and ext!='ogg' and ext!='amr' and ext!='webm'):
         return {
             'statusCode': 200,
             'body': errorAudio,
