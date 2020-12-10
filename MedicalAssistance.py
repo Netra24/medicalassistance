@@ -6,9 +6,6 @@ import base64
 import email
 from pprint import pprint
 from datetime import datetime
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.application import MIMEApplication
 
 s3 = boto3.client('s3')
 ses = boto3.client("ses")
